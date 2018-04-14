@@ -1,0 +1,171 @@
+/* line 4, ../../app/styles/main.scss */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+/* line 10, ../../app/styles/main.scss */
+body {
+  padding: 0;
+  background-color: #f2f4f5;
+  font-family: OpenSans, "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+/* line 16, ../../app/styles/main.scss */
+.container, .container-child, .main {
+  height: 100%;
+}
+
+/* line 20, ../../app/styles/main.scss */
+.main {
+  width: 100%;
+}
+
+/* line 24, ../../app/styles/main.scss */
+.kompetensutforskaren h1 {
+  font-size: 36px;
+  color: #ffffff;
+  margin-left: 10px;
+}
+
+/* line 29, ../../app/styles/main.scss */
+.head {
+  height: 197px;
+  padding-top: 12px;
+  background-image: linear-gradient(116deg, #1c5468, #143e4d);
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+/* line 41, ../../app/styles/main.scss */
+.resultarea, .resulterrorarea {
+  padding-bottom: 2em;
+  background-color: #fff;
+  width: 100%;
+}
+
+/* line 48, ../../app/styles/main.scss */
+.resultarea {
+  float: left;
+  min-height: 100%;
+}
+
+/* line 54, ../../app/styles/main.scss */
+.resulterrorarea {
+  color: red;
+}
+
+/* line 58, ../../app/styles/main.scss */
+.resultareaheadline {
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+/* line 63, ../../app/styles/main.scss */
+.resultarea h4 {
+  font-size: 20px;
+}
+
+/* line 67, ../../app/styles/main.scss */
+.resultterm {
+  font-style: italic;
+}
+
+/* line 71, ../../app/styles/main.scss */
+.relationrow {
+  margin-top: 30px;
+}
+
+/* line 75, ../../app/styles/main.scss */
+.relationrow h4 {
+  color: #15404f;
+}
+
+/* line 79, ../../app/styles/main.scss */
+.relationrow a {
+  cursor: pointer;
+}
+
+/* line 83, ../../app/styles/main.scss */
+.kompetensinputlabel {
+  color: #fff;
+  margin-bottom: 0.5em;
+}
+
+/* line 88, ../../app/styles/main.scss */
+.kompetensinput {
+  padding: 0.5em;
+  border-radius: 9px;
+  height: 50px;
+  width: 20em;
+  font-size: 20px;
+  font-style: italic;
+  color: #747474;
+  border: 0;
+}
+
+/* line 99, ../../app/styles/main.scss */
+.searchbutton {
+  font-size: 20px;
+  color: #fff;
+  margin-top: -0.1em;
+  margin-left: 0.5em;
+  padding: 0.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  height: 50px;
+  border: 0;
+  border-radius: 9px;
+  background-color: #02b774;
+}
+
+@media (max-width: 767px) {
+  /* line 114, ../../app/styles/main.scss */
+  .kompetensutforskaren h1 {
+    font-size: 30px;
+    margin-top: 0;
+    margin-left: 10px;
+  }
+
+  /* line 117, ../../app/styles/main.scss */
+  .kompetensinput {
+    width: 10em;
+  }
+
+  .searchbutton {
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin-top: 0.5em;
+    margin-left: 0;
+    height: inherit;
+
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 800px){
+  /* line 114, ../../app/styles/main.scss */
+  .kompetensutforskaren h1 {
+    font-size: 30px;
+    margin-top: 0;
+    margin-left: 10px;
+  }
+
+  /* line 117, ../../app/styles/main.scss */
+  .kompetensinput {
+    width: 10em;
+  }
+
+  .searchbutton {
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin-top: 0.5em;
+    margin-left: 0;
+    height: inherit;
+
+  }
+
+}
+
+/*# sourceMappingURL=main.css.map */

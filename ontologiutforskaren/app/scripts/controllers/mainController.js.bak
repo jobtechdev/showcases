@@ -1,0 +1,166 @@
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name kompetensutforskarenApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the kompetensutforskarenApp
+ */
+var kompetensutforskarenApp = angular.module('kompetensutforskarenApp');
+
+kompetensutforskarenApp.controller('MainCtrl', function ($scope, $log, $http, $sce) {
+
+  $log.info('MainCtrl initialized');
+  $scope.input = {};
+  $scope.relationsobj = {}
+
+
+
+  $scope.searchConcepts = function (val) {
+    $log.info('getSuggestions called, val: ' + val);
+
+    $scope.input.val = val;
+
+    var term = val;
+    var nrOfSuggestions = 20;
+    var request = {
+      method: 'GET',
+      // url: irisinstanturl + 'suggest?&wt=json&q=' + encodeURIComponent(term),
+       url: ONTOLOGY_APIURL + '/concept?filter=' + encodeURIComponent(term),
+      // url: "http://172.24.155.128:7070/ontology/v1/concept?filter=" + encodeURIComponent(term),
+      headers: {'Content-Type': 'application/json'}
+    };
+
+    return $http(request)
+      .then(function (response) {
+        var rows = response.data;
+
+        function processrow(row) {
+          return {
+            "term": row.name + "   (" + row.type + ")"
+
+          }
+        }
+
+        var competences = _.map(rows, processrow);
+        $log.info(competences);
+        return competences;
+
+      });
+  };
+
+
+  $scope.onTypeaheadSelect = function ($item, $model, $label) {
+    // $log.info($item + " " + $model + " " + $label);
+    $scope.findRelated($model);
+  };
+
+  $scope.findRelatedFromResult = function (term) {
+    window.scrollTo(0, 0);
+    $scope.relationsobj = {}
+
+    $scope.input.termer = term;
+    $scope.findRelated(term);
+  };
+
+  $scope.findRelated = function (term) {
+    $log.info('findRelated called, term: ' + term);
+    var split = term.split(' ')
+    var concept = ""
+    for(var s in split){
+
+      concept += "concept=" + split[s] + "&"
+
+    }
+    $log.info("out->" + concept);
+
+    $scope.resulterrormessage = '';
+
+    // var request2 = {
+    //   method: 'GET',
+    //
+    //   url: 'http://172.24.155.128:7070/ontology/v1/concept?offset=0&limit=0',
+    //   headers: {'Content-Type': 'application/json'}
+    // };
+    // return $http(request2)
+    //   .then(function (response) {
+    //     var data = response.data;
+    //
+    //     // var regex = new RegExp('\\b' + "testasda " + '\\b');
+    //     // $log.info("snickare test ".search(regex));
+    //
+    //
+    //     //
+    //     for(var s in data){
+    //       if(data[s].name != 'c++')
+    //         var regex = new RegExp('\\b' + data[s].name.toLowerCase() + '\\b');
+    //         $log.info(term.toLowerCase().search(regex))
+    //       // if(term.toLowerCase().search(regex) >= 0) {
+    //       //   $log.info(term.search(regex));
+    //       //   $log.info("data[s].name " + data[s].name);
+    //       //   $log.info("term" + term);
+    //       //   //if(term.toLowerCase().indexOf(data[s].name.toLowerCase()) >= 0)
+    //       //   // for(var s in split)
+    //       //   //   // if(split[s] == data[s].name)
+    //       // }
+    //
+    //
+    //     }
+    //
+    //   });
+
+
+    var request = {
+      method: 'GET',
+      // url: irisinstanturl + 'suggest?&wt=json&q=' + encodeURIComponent(term),
+      // http://172.24.155.128:7070/ontology/v1/concept/related?concept=systemutvecklare&limit=10
+      //url: ONTOLOGY_APIURL + '/concept/' + term + '/related',
+      url: 'http://172.24.155.128:7070/ontology/v1/concept/related?'+concept+'limit=10',
+      headers: {'Content-Type': 'application/json'}
+    };
+
+    return $http(request)
+      .then(function (response) {
+        var data = response.data;
+
+
+
+        $scope.relationsobj.resultTerm = data.name;
+        $scope.relationsobj.resultUuid = data.uuid;
+        $scope.relationsobj.relationsCount = data.count;
+        $scope.relationsobj.relations = data.relations;
+
+      }, function(response) {
+
+        $scope.relationsobj = {}
+        // $scope.data = response.data || 'Request failed';
+        // $scope.status = response.status;
+        //$scope.resulterrormessage = response.data || 'Request failed';
+        if(response.status == 404) {
+          $scope.resulterrormessage = 'Kunde inte hitta kompetensen ' + term;
+        } else {
+          $scope.resulterrormessage = 'Tekniskt fel. Response.status:' + response.status;
+        }
+
+      });
+
+
+
+  };
+  /*
+   findRelated: function(uuid) {
+   this.concepts = []
+   this.search = ''
+   axios.get(APIURL + "/concept/" + uuid + "/related")
+   .then(response => {
+   this.skgrelatedconcepts = response.data.relations
+   this.relatedquery = response.data.name
+   }).catch(e => {
+   this.error_message = "Failed communication with API: " + e.message
+   console.log(e)
+   })
+   */
+
+
+});

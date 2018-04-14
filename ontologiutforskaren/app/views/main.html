@@ -1,0 +1,79 @@
+
+
+
+<div class="main">
+
+
+  <div class="head">
+    <div class="row">
+      <div class="col-md-3 hidden-xs"></div>
+      <div class="col-md-9 col-xs-12">
+        <h1>Ontologiutforskaren</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 hidden-xs"></div>
+      <div class="col-md-6">
+          <tags-input placeholder="Lägg till" on-tag-removed="findRelated(tags)" on-tag-added="findRelated(tags)" template="tag-template"
+                      replace-spaces-with-dashes="false" ng-model="tags" min-length="2" key-property="term"
+                      display-property="term">
+            <auto-complete display-property="displayname" source="searchConcepts($query,$model)"
+                           min-length="2"></auto-complete>
+          </tags-input>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-default searchbutton" type="button" ng-click="findRelated(tags)">Sök</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 hidden-xs"></div>
+      <div class="typechoicearea col-md-9 col-xs-12">
+          <label class="radio-inline"><input type="radio" ng-model="typechoicearea.type" ng-change='findRelated(tags)'
+                                             value="Kompetens"/>kompetens</label>
+          <label class="radio-inline"><input type="radio" ng-model="typechoicearea.type" ng-change='findRelated(tags)'
+                                             value="Förmåga"/>förmåga</label>
+          <label class="radio-inline"><input type="radio" ng-model="typechoicearea.type" ng-change='findRelated(tags)'
+                                             value="Yrke"/>yrke</label>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <!--koncepturl: {{koncepturl}}-->
+  <!--<br/>-->
+  <!--relatedurl: {{relatedurl}}-->
+
+  <div class="resulterrorarea" ng-show="resulterrormessage">
+    <div class="col-md-3 hidden-xs"></div>
+    <div class="col-md-9 col-xs-12">
+      <h4>{{ resulterrormessage }}</h4>
+    </div>
+  </div>
+
+  <div ng-show="showkompetenskarta()" class="chartarea">
+    <div google-chart data-chart="kkChartObject" class="chart"></div>
+  </div>
+
+  <div class="resultarea">
+    <div class="col-md-3 hidden-xs"></div>
+    <div class="col-md-9 col-xs-12" ng-show="tags[0].term">
+
+
+      <h4 class="resultareaheadline">{{typetextFormat()}} relaterade till &quot;
+        <span ng-repeat="tag in tags" class="resultterm">{{$first ? '' : ', '}}{{tag.term}}</span> &quot;
+      </h4>
+    </div>
+
+    <div class="col-md-3 hidden-xs"></div>
+    <div class="col-md-9 col-xs-12">
+      <div class="relationrow" ng-repeat="relation in relationsobj.relations">
+        <h4><a ng-click="findRelatedFromResult(relation.name,relation.type)">{{relation.name}}</a></h4>
+        Relaterar till {{relation.score * 100 | number: 0}} %
+      </div>
+    </div>
+  </div>
+</div>
